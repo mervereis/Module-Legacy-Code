@@ -28,7 +28,7 @@ const createBloom = (template, bloom) => {
   bloomTimeLink.setAttribute("href", `/bloom/${bloom.id}`);
   bloomContent.replaceChildren(
     ...bloomParser.parseFromString(_formatHashtags(bloom.content), "text/html")
-      .body.childNodes
+      .body.childNodes,
   );
 
   return bloomFrag;
@@ -37,8 +37,8 @@ const createBloom = (template, bloom) => {
 function _formatHashtags(text) {
   if (!text) return text;
   return text.replace(
-    /\B#[^#]+/g,
-    (match) => `<a href="/hashtag/${match.slice(1)}">${match}</a>`
+    /#\w+/g,
+    (match) => `<a href="/hashtag/${match.slice(1)}">${match}</a>`,
   );
 }
 
@@ -84,4 +84,4 @@ function _formatTimestamp(timestamp) {
   }
 }
 
-export {createBloom};
+export { createBloom };
