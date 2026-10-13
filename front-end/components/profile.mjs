@@ -19,6 +19,7 @@ function createProfile(template, {profileData, whoToFollow, isLoggedIn}) {
   );
   const followerCountEl = profileElement.querySelector("[data-follower-count]");
   const followButtonEl = profileElement.querySelector("[data-action='follow']");
+  const followingContainer = profileElement.querySelector(".profile__following");
   const whoToFollowContainer = profileElement.querySelector(".profile__who-to-follow");
   // Populate with data
   usernameEl.querySelector("h2").textContent = profileData.username || "";
@@ -31,6 +32,25 @@ function createProfile(template, {profileData, whoToFollow, isLoggedIn}) {
   followButtonEl.addEventListener("click", handleFollow);
   if (!isLoggedIn) {
     followButtonEl.style.display = "none";
+  }
+
+  // Only the logged-in user can unfollow, from their own list of followed users
+  const followedUsernames = profileData.follows || [];
+  if (isLoggedIn && profileData.is_self && followedUsernames.length > 0) {
+    const followingList = followingContainer.querySelector("[data-following-list]");
+    const followingTemplate = document.querySelector("#following-chip");
+    for (const followedUsername of followedUsernames) {
+      const followingElement = followingTemplate.content.cloneNode(true);
+      const usernameLink = followingElement.querySelector("a[data-username]");
+      usernameLink.innerText = followedUsername;
+      usernameLink.setAttribute("href", `/profile/${followedUsername}`);
+      const unfollowButton = followingElement.querySelector("button");
+      unfollowButton.setAttribute("data-username", followedUsername);
+      unfollowButton.addEventListener("click", handleUnfollow);
+      followingList.appendChild(followingElement);
+    }
+  } else {
+    followingContainer.remove();
   }
 
   if (whoToFollow.length > 0) {
@@ -66,4 +86,13 @@ async function handleFollow(event) {
   await apiService.getWhoToFollow();
 }
 
-export {createProfile, handleFollow};
+async function handleUnfollow(event) {
+  const button = event.target;
+  const username = button.getAttribute("data-username");
+  if (!username) return;
+
+  await apiService.unfollowUser(username);
+  await apiService.getWhoToFollow();
+}
+
+export {createProfile, handleFollow, handleUnfollow};

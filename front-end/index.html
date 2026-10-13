@@ -187,12 +187,24 @@
         <div class="profile__actions">
           <button type="button" data-action="follow">Follow</button>
         </div>
+        <div class="profile__following">
+          <h4>Following</h4>
+          <ul data-following-list></ul>
+        </div>
         <div class="profile__who-to-follow">
           <h4>Who to follow</h4>
           <ul data-who-to-follow>
           </ul>
         </div>
       </section>
+    </template>
+    <template id="following-chip">
+      <li>
+        <div><a data-username></a></div>
+        <div class="profile__actions">
+          <button type="button" data-action="unfollow">Unfollow</button>
+        </div>
+      </li>
     </template>
     <template id="who-to-follow-chip">
       <li>
