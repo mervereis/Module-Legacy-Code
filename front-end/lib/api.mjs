@@ -302,6 +302,7 @@ const apiService = {
   getBloom,
   getBlooms,
   postBloom,
+  rebloom,
   getBloomsByHashtag,
 
   // User methods

@@ -206,7 +206,6 @@ def home_timeline():
     # Get the current user's own blooms
     own_blooms = blooms.get_blooms_for_user(current_user.username, limit=50)
 
-    # <-- DELETE from here down to the return line -->
     # Combine own blooms with followed blooms
     all_blooms = followed_blooms + own_blooms
 

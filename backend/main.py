@@ -9,6 +9,7 @@ from endpoints import (
     home_timeline,
     login,
     other_profile,
+    rebloom,
     register,
     self_profile,
     send_bloom,
@@ -57,6 +58,7 @@ def main():
     app.add_url_rule("/suggested-follows/<limit_str>", view_func=suggested_follows)
 
     app.add_url_rule("/bloom", methods=["POST"], view_func=send_bloom)
+    app.add_url_rule("/rebloom/<id_str>", methods=["POST"], view_func=rebloom)
     app.add_url_rule("/bloom/<id_str>", methods=["GET"], view_func=get_bloom)
     app.add_url_rule("/blooms/<profile_username>", view_func=user_blooms)
     app.add_url_rule("/hashtag/<hashtag>", view_func=hashtag)
